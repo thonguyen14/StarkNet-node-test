@@ -63,10 +63,10 @@ WantedBy=multi-user.target
 EOF
 
 # Start service
-sudo systemctl daemon-reload
-sudo systemctl enable starknetd
-sudo systemctl start starknetd 
-journalctl -u starknetd -f -o cat
+$sudo systemctl daemon-reload
+$sudo systemctl enable starknetd
+$sudo systemctl start starknetd 
+$journalctl -u starknetd -f -o cat
             OK OK
   Stop node : sudo systemctl stop starknetd
   start node   : sudo systemctl start starknetd
