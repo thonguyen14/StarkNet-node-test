@@ -52,34 +52,19 @@ Login the link https://dashboard.alchemyapi.io/apps, then select Apps ⇒ Create
 
 8 -  Run your node
   
-sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF
-                                                                                                                                  
-[Unit]
-                                                                 
+sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF                                                                                                       [Unit]
 Description=StarkNet
-                                                                 
 After=network.target
-                                                                 
 [Service]
-                                                                 
-Type=simple
-                                                                 
+Type=simpl
 User=$USER
-                                                                 
 WorkingDirectory=/root/pathfinder/py
-                                                                 
 ExecStart=/bin/bash -c 'source /root/pathfinder/py/.venv/bin/activate && /root/.cargo/bin/cargo run --release --bin pathfinder -- --ethereum.url https://eth-goerli.alchemyapi.io/v2/*****'
-                                                                 
 Restart=always
-                                                                 
 RestartSec=10
-                                                                 
 Environment=RUST_BACKTRACE=1
-                                                                 
 [Install]
-                                                                 
 WantedBy=multi-user.target
-                                                                 
 EOF
                                                                  
 # Start service
