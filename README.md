@@ -1,0 +1,74 @@
+# StarkNet-node-test - guide
+1 - Check : python3 -V
+
+2 - Install pip :
+
+sudo apt install -y python3-pip
+sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
+
+sudo apt-get install libgmp-dev
+pip3 install fastecdsa
+
+sudo apt-get install -y pkg-config
+
+3 - Install Rust :
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+sudo apt install cargo
+rustup update stable
+ 
+
+4 - Clone pathfinder github repository 
+
+git clone --branch v0.2.0-alpha https://github.com/eqlabs/pathfinder.git
+
+
+5 - Create a virtual environment for a node
+
+sudo apt install python3.8-venv
+cd pathfinder/py
+python3 -m venv .venv
+source .venv/bin/activate
+PIP_REQUIRE_VIRTUALENV=true pip install --upgrade pip
+PIP_REQUIRE_VIRTUALENV=true pip install -r requirements-dev.txt
+
+  *Test if your previous steps were successful by running : pytest
+
+6 - Assemble your node
+
+cargo build --release --bin pathfinder
+
+7 - Create Infura or Alchemy account
+
+Login the link https://dashboard.alchemyapi.io/apps, then select Apps ⇒ Create App.Then select Chain is Polygon, Network is Polygon Mainnet , then press Create App
+       After your App is created, press View Key, and write down your jsonRPC in HTTP, example : https://eth-goerli.alchemyapi.io/v2/*****
+
+8 -  Run your node
+  
+sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF
+[Unit]
+Description=StarkNet
+After=network.target
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=/root/pathfinder/py
+ExecStart=/bin/bash -c 'source /root/pathfinder/py/.venv/bin/activate && /root/.cargo/bin/cargo run --release --bin pathfinder -- --ethereum.url https://eth-goerli.alchemyapi.io/v2/*****'
+Restart=always
+RestartSec=10
+Environment=RUST_BACKTRACE=1
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Start service
+sudo systemctl daemon-reload
+sudo systemctl enable starknetd
+sudo systemctl start starknetd 
+journalctl -u starknetd -f -o cat
+            OK OK
+  Stop node : sudo systemctl stop starknetd
+  start node   : sudo systemctl start starknetd
+  delete node  : rm -rf pathfinder
+  check log : journalctl -u starknetd -f -o cat
+  check status node : systemctl status starknetd
