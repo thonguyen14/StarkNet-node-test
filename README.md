@@ -46,6 +46,7 @@ Login the link https://dashboard.alchemyapi.io/apps, then select Apps ⇒ Create
 8 -  Run your node
   
 sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF
+                                                                 
 [Unit]
 Description=StarkNet
 After=network.target
