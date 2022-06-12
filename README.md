@@ -14,9 +14,10 @@ sudo apt-get install -y pkg-config
 3 - Install Rust :
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 sudo apt install cargo
+
 rustup update stable
- 
 
 4 - Clone pathfinder github repository 
 
@@ -26,11 +27,17 @@ git clone --branch v0.2.0-alpha https://github.com/eqlabs/pathfinder.git
 5 - Create a virtual environment for a node
 
 sudo apt install python3.8-venv
+
 cd pathfinder/py
+
 python3 -m venv .venv
+
 source .venv/bin/activate
+
 PIP_REQUIRE_VIRTUALENV=true pip install --upgrade pip
+
 PIP_REQUIRE_VIRTUALENV=true pip install -r requirements-dev.txt
+
 
   *Test if your previous steps were successful by running : pytest
 
@@ -46,22 +53,35 @@ Login the link https://dashboard.alchemyapi.io/apps, then select Apps ⇒ Create
 8 -  Run your node
   
 sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF
-                                                                 
+                                                                                                                                  
 [Unit]
+                                                                 
 Description=StarkNet
+                                                                 
 After=network.target
+                                                                 
 [Service]
+                                                                 
 Type=simple
+                                                                 
 User=$USER
+                                                                 
 WorkingDirectory=/root/pathfinder/py
+                                                                 
 ExecStart=/bin/bash -c 'source /root/pathfinder/py/.venv/bin/activate && /root/.cargo/bin/cargo run --release --bin pathfinder -- --ethereum.url https://eth-goerli.alchemyapi.io/v2/*****'
+                                                                 
 Restart=always
+                                                                 
 RestartSec=10
+                                                                 
 Environment=RUST_BACKTRACE=1
+                                                                 
 [Install]
+                                                                 
 WantedBy=multi-user.target
+                                                                 
 EOF
-
+                                                                 
 # Start service
 $sudo systemctl daemon-reload
                                                                  
