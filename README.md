@@ -66,7 +66,9 @@ Environment=RUST_BACKTRACE=1
 [Install]
 WantedBy=multi-user.target
 EOF
-                                                                 
+sudo tee /etc/systemd/system/starknetd.service > /dev/null <<EOF
+                                                                 [Unit]
+                                                                 description=starknet
 # Start service
 $sudo systemctl daemon-reload
                                                                  
