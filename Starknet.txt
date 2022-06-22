@@ -55,7 +55,7 @@ After=network.target
 Type=simple
 User=$USER
 WorkingDirectory=/root/pathfinder/py
-ExecStart=/bin/bash -c 'source /root/pathfinder/py/.venv/bin/activate && /root/.cargo/bin/cargo run --release --bin pathfinder -- --ethereum.url https://mainnet.infura.io/v3/****
+ExecStart=/bin/bash -c 'source /root/pathfinder/py/.venv/bin/activate && /root/.cargo/bin/cargo run --release --bin pathfinder -- --ethereum.url https://mainnet.infura.io/v3/****'
 Restart=always
 RestartSec=10
 Environment=RUST_BACKTRACE=1
